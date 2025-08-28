@@ -94,6 +94,7 @@ services:
       retries: 3
     logging:
       <<: *logging
+
   ratings:
     build:
       context: ratings
@@ -111,6 +112,7 @@ services:
       retries: 3
     logging:
       <<: *logging
+
   payment:
     build:
       context: payment
@@ -129,6 +131,7 @@ services:
       #PAYMENT_GATEWAY: "https://www.worldpay.com"
     logging:
       <<: *logging
+
   dispatch:
     build:
       context: dispatch
@@ -139,6 +142,7 @@ services:
       - robot-shop
     logging:
       <<: *logging
+
   web:
     build:
       context: web
@@ -160,13 +164,15 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-    # Uncomment to enable Instana EUM
-    # environment:
-      # INSTANA_EUM_KEY: <your eum key>
-      # INSTANA_EUM_REPORTING_URL: <your reporting url>
+    environment:
+      - CATALOGUE_HOST=catalogue
+      - USER_HOST=user
+      - SHIPPING_HOST=shipping
+      - PAYMENT_HOST=payment
+      - RATINGS_HOST=ratings
+      - CART_HOST=cart
     logging:
       <<: *logging
 
 networks:
   robot-shop:
-

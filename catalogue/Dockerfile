@@ -1,16 +1,19 @@
-FROM node:14
-
-ENV INSTANA_AUTO_PROFILE true
-
-EXPOSE 8080
-
+FROM node:20
 WORKDIR /opt/server
 
-COPY package.json /opt/server/
+# copy only manifests to leverage cache
+COPY package*.json ./
 
-RUN npm install
+# pick ONE of the two installers below:
 
-COPY server.js /opt/server/
+# A) If you have package-lock.json (recommended)
+# RUN npm ci --omit=dev --no-audit --no-fund
 
-CMD ["node", "server.js"]
+# B) If you do NOT have package-lock.json
+RUN npm install --omit=dev --no-audit --no-fund
 
+# now copy the app code
+COPY server.js ./
+
+EXPOSE 8080
+CMD ["node","server.js"]
