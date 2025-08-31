@@ -4,11 +4,13 @@
 FROM composer:2 AS vendor
 WORKDIR /app
 
-# Copy composer files
-COPY composer.json composer.lock ./
+# Copy composer.json (and composer.lock if it exists)
+COPY composer.json ./
+# Only copy composer.lock if present
+COPY composer.lock* ./
 
 # Install dependencies (no dev, optimized autoloader)
-RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --no-scripts --no-progress
 
 # Copy the application source
 COPY html/ /app
