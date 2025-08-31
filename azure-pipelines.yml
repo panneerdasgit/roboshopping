@@ -37,3 +37,12 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'panneerdasacr'
+        repository: 'panneerdasgitroboshopping'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/catalogue/Dockerfile'
+        tags: |
+          catalogue/$(Build.BuildId)
+          catalogue/latest
