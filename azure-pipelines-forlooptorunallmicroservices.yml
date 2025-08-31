@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  acrName: panneerdasgitroboshopping.azurecr.io
+  acrName: panneerdasacr.azurecr.io/panneerdasgitroboshopping
   buildId: $(Build.BuildId)
   microservicesFolder: $(Build.SourcesDirectory)  # root of your repo
 
