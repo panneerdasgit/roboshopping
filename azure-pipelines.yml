@@ -10,12 +10,8 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '511527db-4a2a-4974-a1ef-e6e1397b1f59'
+  microserviceName: 'catalogue'
   imageRepository: 'panneerdasgitroboshopping'
-  containerRegistry: 'panneerdasacr.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/cart/Dockerfile'
-  tag: '$(Build.BuildId)'
-
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -29,20 +25,11 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)/cart
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-    - task: Docker@2
       inputs:
         containerRegistry: 'panneerdasacr'
-        repository: 'panneerdasgitroboshopping'
+        repository: '$(imageRepository)/catalogue'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/catalogue/Dockerfile'
         tags: |
-          catalogue/$(Build.BuildId)
-          catalogue/latest
+          $(Build.BuildId)
+          latest
