@@ -19,7 +19,7 @@ spec:
       {{ end }}
       containers:
       - name: user
-        image: {{ .Values.image.repo }}/rs-user:{{ .Values.image.version }}
+        image: panneerdasacr.azurecr.io/panneerdasgitroboshopping/user:latest
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
           # agent networking access
