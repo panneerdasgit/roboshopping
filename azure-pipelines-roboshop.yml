@@ -1,0 +1,25 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: HelmInstaller@1
+  inputs:
+    helmVersionToInstall: '3.14.4'   # use latest stable
+
+# Package Helm chart
+- task: HelmDeploy@0
+  displayName: "Package Helm chart"
+  inputs:
+    command: 'package'
+    chartPath: '$(Build.SourcesDirectory)/AKS/helm'
+
+# Publish Helm chart as build artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'helm-charts'
+    publishLocation: 'Container'
+
